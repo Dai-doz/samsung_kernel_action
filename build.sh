@@ -3,15 +3,31 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+echo "---------------------------------------------------"
+echo "=========================================="
+echo " ██████╗ ██████╗  ██████╗ ███████╗ ██████╗ "
+echo " ██╔══██╗██╔══██╗██╔═══██╗╚══███╔╝██╔════╝ "
+echo " ██████╔╝██║  ██║██║   ██║  ███╔╝ ██║  ███╗"
+echo " ██╔═══╝ ██║  ██║██║   ██║ ███╔╝  ██║   ██║"
+echo " ██║     ██████╔╝╚██████╔╝███████╗╚██████╔╝"
+echo " ╚═╝     ╚═════╝  ╚═════╝ ╚══════╝ ╚═════╝ "
+echo " Welcome to ProjectDozG Kernel Builder FUNC"
+echo "=========================================="
+echo "---------------------------------------------------"
+
+echo "[-]executing build script..."
+echo "[-]Target:exynos850-${DEVICE_TARGET}_defconfig"
+
 # --- Configuration ---
 SECONDS=0
-USER="rsuntk"
-HOSTNAME="yukiprjkt-lab"
+USER="Dai-doz"
+HOSTNAME="ProjectDozG-lab"
 DEVICE_TARGET=${DEVICE_TARGET:-"a12snsxx"}
 TC_DIR="$HOME/neutron-clang"
 OUT_DIR="$(pwd)/out"
 KCFLAGS_W=${KCFLAGS_W:-"false"}
 BUILD_STOCK=${BUILD_STOCK:-"false"}
+EMBED_KSU=${EMBED_KSU:-"false"}
 
 # Colors for output
 export TERM=xterm
@@ -138,6 +154,21 @@ export LLVM=1
 #export CC=$TC_DIR/bin/clang
 #export LD=$TC_DIR/bin/ld.lld
 ## END WORKAROUND
+
+# KSU info start
+KSU_REPO_OWNER=${KSU_REPO_OWNER:-"backslashxx"}
+KSU_REPO_BRANCH=${KSU_REPO_BRANCH:-"master"}
+KSU_REPO_NAME=${KSU_REPO_NAME:-"KernelSU"}
+KSU_TARGET_BRANCH=${KSU_TARGET_BRANCH:-"master"}
+
+if [[ "$EMBED_KSU" == "true" ]]; then
+echo "KernelSU embed: owner=$KSU_REPO_OWNER, repo_branch=$KSU_REPO_BRANCH, repo_name=$KSU_REPO_NAME, target_branch=$KSU_TARGET_BRANCH"
+curl -LSs "https://raw.githubusercontent.com/${KSU_REPO_OWNER}/${KSU_REPO_NAME}/${KSU_REPO_BRANCH}/kernel/setup.sh" | bash -s ${KSU_TARGET_BRANCH}
+KSU_CONFIG="ksu.config"
+else
+KSU_CONFIG=
+fi
+# KSU info end
 
 msg "KCFLAGS=-w is $KCFLAGS_W"
 [ "$KCFLAGS_W" = "true" ] && export KCFLAGS=-w
