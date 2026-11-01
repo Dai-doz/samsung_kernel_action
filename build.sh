@@ -27,7 +27,7 @@ TC_DIR="$HOME/neutron-clang"
 OUT_DIR="$(pwd)/out"
 KCFLAGS_W=${KCFLAGS_W:-"false"}
 BUILD_STOCK=${BUILD_STOCK:-"false"}
-EMBED_KSU=${EMBED_KSU:-"false"}
+EMBED_KSU=${EMBED_KSU:-"true"}
 
 # Colors for output
 export TERM=xterm
