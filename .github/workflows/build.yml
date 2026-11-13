@@ -91,7 +91,7 @@ jobs:
           if grep -q 'int path_umount' fs/namespace.c; then
             echo "path_umount already present"
           else
-            git apply --verbose "${{ github.workspace }}/ci/.github/PDozG/KernelSU.diff"
+            git apply --verbose ".github/PDozG/KernelSU.diff"
           fi
 
     - name: Build Kernel
