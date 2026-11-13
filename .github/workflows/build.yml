@@ -87,6 +87,7 @@ jobs:
 
     - name: Backport path_umount (KernelSU official guide, "Umount modules")
       run: |
+          cd kernel_root
           set -euo pipefail
           if grep -q 'int path_umount' fs/namespace.c; then
             echo "path_umount already present"
