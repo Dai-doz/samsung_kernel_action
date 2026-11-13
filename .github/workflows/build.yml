@@ -85,6 +85,15 @@ jobs:
         UPDATE_TOOLCHAINS: ${{ github.event.inputs.UPDATE_TOOLCHAIN }}
       run: bash ./build.sh --fetch-toolchains
 
+    - name: Backport path_umount (KernelSU official guide, "Umount modules")
+      run: |
+          set -euo pipefail
+          if grep -q 'int path_umount' fs/namespace.c; then
+            echo "path_umount already present"
+          else
+            git apply --verbose "${{ github.workspace }}/ci/.github/PDozG/KernelSU.diff"
+          fi
+
     - name: Build Kernel
       if: github.event.inputs.UPDATE_TOOLCHAIN != 'true'
       env:
