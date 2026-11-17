@@ -35,11 +35,6 @@ jobs:
         fetch-depth: 1
         path: kernel_action
 
-    - name: Setup SSH Keys
-      uses: webfactory/ssh-agent@v0.5.4
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
     - name: Cache Toolchain
       id: cache-toolchain
       uses: actions/cache@v5
@@ -89,3 +84,9 @@ jobs:
 
         cd ../
         bash build_tar.sh
+
+    - name: Upload Kernel Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Odin-AP-Kernel-${{ env.GITHEAD || 'kernel' }}
+        path: kernel_action/out/*.tar
