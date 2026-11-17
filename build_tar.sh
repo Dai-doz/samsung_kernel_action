@@ -135,11 +135,4 @@ lz4 -B6 --content-size boot.img boot.img.lz4 > /dev/null 2>&1
 echo "- Compressing img.lz4 [tar]"
 tar -cf "${FILENAME}.tar" boot.img.lz4 dtbo.img.lz4
 echo "- Odin AP flashable: ${FILENAME}.tar (md5: $(md5sum ./${FILENAME}.tar | cut -d' ' -f1))"
-if [[ ! -z "${TG_BOT_TOKEN:-}" || ! -z "${TG_CHAT_ID:-}" ]]; then
-source ${SCRIPTS_DIR}/telegram.sh
-upload_tg "${FILENAME}.tar" "${TG_BOT_TOKEN}" "${TG_CHAT_ID}"
-else
-echo "- Warning, your file is not uploaded."
-fi
 cd - > /dev/null 2>&1
-
